@@ -34,6 +34,7 @@ min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
   md= lm(mdr$frm, mdr$data)
   y=all.vars(as.formula(mdr$frm))[1]
   
+  
   # logistic model for given parameters
   w=mdr$weights/mdr$n
   distance<-function(coef){
@@ -50,8 +51,15 @@ min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
   # calculate min distance
   mdr$min.distance=sqrt(deviance(res))
   mdr$coefficients=coef(res)
-  mdr$residuals=res$fvec
-  mdr$fitted=res$fvec+mdr$data[[y]]
+ 
+  # calculate fitted
+  md$coefficients=coef(res)
+  l=predict.lm(md,mdr$data)
+  mdr$fitted=logistic(l)
+   
+  # easy access to other data 
+  mdr$y=mdr$data[[y]]
+  mdr$w=mdr$weights/mdr$n
   
   # test results
   mdr$min.epsilon=NA

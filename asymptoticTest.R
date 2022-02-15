@@ -2,20 +2,18 @@
 
 asymptStDev<-function(mdr){
   
-  w=mdr$weights/mdr$n
-  
-  y=all.vars(as.formula(mdr$frm))[1]
-  p=mdr$data[[y]]
+  w=mdr$w
+  p=mdr$y
+  f=mdr$fitted
   
   #calculate q  vector
   q1=p*w
   q0=(1-p)*w
-  q=c(q0,q1)
   
   #calculate derivative
-  r=mdr$residuals
-  dq0=r*r-2*r*p
-  dq1=r*r+2*r*q0/(q1+q0)
+  r=(p-f)*w
+  dq0=2*f*r
+  dq1=2*(1-f)*r
   
   vol=asymptSDMultinomial(p=c(q0,q1), derivative=c(dq0,dq1))
   return(vol)
