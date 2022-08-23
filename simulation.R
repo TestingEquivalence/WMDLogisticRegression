@@ -1,4 +1,3 @@
-library(parallel)
 
 resample.p<-function(n,p){
   f<-function(r){

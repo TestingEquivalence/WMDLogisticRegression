@@ -10,8 +10,8 @@ df$agegp=factor(df$agegp,ordered = FALSE)
 df$alcgp=factor(df$alcgp,ordered = FALSE)
 df$tobgp=factor(df$tobgp,ordered = FALSE)
 
-df$agegp=fct_collapse(df$agegp,
-                      i25_44=c("25-34","35-44")) 
+# df$agegp=fct_collapse(df$agegp,
+#                       i25_44=c("25-34","35-44")) 
                       
 df=aggregate(cbind(ncases,ncontrols) ~ alcgp+tobgp+agegp, df, sum)
 df$n=df$ncases+df$ncontrols
@@ -30,7 +30,7 @@ write.result(lr,"lr.csv")
 
 # using minimum distance regression
 set.seed(01012021)
-mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, 
+mdr = min_dst_logit(frm,df,weights=df$n,test = "", 
                     nSimulation = 1000)
 write.result(mdr,"mdr.csv")
 
@@ -44,7 +44,7 @@ write.result(mdr,"mdr.csv")
 
 lr = glm(frm,df, family = binomial("logit"), weights =n)
 
-mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic)
+mdr = min_dst_logit(frm,df,weights=df$n,test = "")
 
 # compute distribution using logit regression 
 res=simulatePowerAtModel(df,n=df$n,

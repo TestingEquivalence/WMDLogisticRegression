@@ -4,6 +4,7 @@ source("empiricalBootstrapTest.R")
 source("simulation.R")
 source("BootstrapTestTPercentile.R")
 library(minpack.lm)
+library(parallel)
 
 logit=qlogis
 logistic = plogis
