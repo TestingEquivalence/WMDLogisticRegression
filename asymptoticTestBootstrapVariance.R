@@ -2,15 +2,16 @@ bootstrapVolatility<-function(mdr,nSimulation){
   #calculate bootstrap volatility
   y=all.vars(as.formula(mdr$frm))[1]
   p=mdr$data[[y]]
- 
   mdr$test=none
+ 
   res=rep(NA,nSimulation)
   
   for (i in c(1:nSimulation)){
     #resample cell sizes first
     n=rmultinom(1, mdr$n,mdr$weights)
+    #resample counting frequencies
     np=resample.p(n,p)
-    nmdr=updateMinDistanceModel(p=np,mdr)
+    nmdr=updateMinDistanceModel(np,n,mdr)
     res[i]=nmdr$min.distance^2
   }
 

@@ -84,12 +84,12 @@ min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
   return(mdr)
 }
 
-updateMinDistanceModel<-function(p,mdr){
+updateMinDistanceModel<-function(p,weights,mdr){
   df=mdr$data
   y=all.vars(as.formula(mdr$frm))[1]
   df[[y]]=p
   
-  nlr=min_dst_logit(mdr$frm,data=df,weights=mdr$weights,test = mdr$test, alpha = mdr$alpha,
+  nlr=min_dst_logit(mdr$frm,data=df,weights=weights,test = mdr$test, alpha = mdr$alpha,
                     nSimulation = mdr$nSimulation)
   return(nlr)
 }

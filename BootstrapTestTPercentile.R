@@ -2,15 +2,17 @@ tPercentileBootstrapTest<-function(mdr,nSimulation){
   #calculate bootstrap distribution
   y=all.vars(as.formula(mdr$frm))[1]
   p=mdr$data[[y]]
-  n=mdr$weights
-  
   mdr$test=none
+  
   res=rep(NA,nSimulation)
   stDev=asymptStDev(mdr)
   
   for (i in c(1:nSimulation)){
+    #resample cell sizes first
+    n=rmultinom(1, mdr$n,mdr$weights)
+    #resample counting frequencies
     np=resample.p(n,p)
-    nmdr=updateMinDistanceModel(p=np,mdr)
+    nmdr=updateMinDistanceModel(np,n,mdr)
     nStDev=asymptStDev(nmdr)
     res[i]=(nmdr$min.distance^2-mdr$min.distance^2)/nStDev
   }
