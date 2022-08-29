@@ -26,7 +26,7 @@ write.result(lr,"lr.csv")
 
 # using minimum distance regression
 set.seed(01012021)
-mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, nSimulation = 1000)
+mdr = min_dst_logit(frm,df,weights=df$n,test = empiricalBootstrap, nSimulation = 1000)
 write.result(mdr,"mdr.csv")
 
 
