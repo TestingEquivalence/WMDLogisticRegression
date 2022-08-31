@@ -81,7 +81,7 @@ updateLogitModel<-function(p,lr){
 }
 
 
-simulatePowerAtPoint<-function(p,mdr, nSimulation,eps){
+simulatePowerAtPoint<-function(mdr, nSimulation,eps){
   set.seed(01032020)
   nsim=list()
   psim=list()
@@ -89,14 +89,14 @@ simulatePowerAtPoint<-function(p,mdr, nSimulation,eps){
     #resample cell sizes first
     nsim[[i]]=rmultinom(1, mdr$n,mdr$weights)
     #resample counting frequencies
-    psim[[i]]=resample.p(nsim[[i]],p)
+    psim[[i]]=resample.p(nsim[[i]],mdr$y)
   }
   
   
   res=rep(NA,nSimulation)
   
   for (i in c(1:nSimulation)){
-    nlr=updateMinDistanceModel(psim[[i]],nsim[[i]],mdr)
+    nmdr=updateMinDistanceModel(psim[[i]],nsim[[i]],mdr)
     res[i]=nmdr$min.epsilon
   }
   
