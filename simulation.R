@@ -66,12 +66,13 @@ write.results<-function(res,fname){
     close(fc)
 }
 
-updateLogitModel<-function(p,lr){
+updateLogitModel<-function(p,weights,lr){
   df=lr$data
   frm=lr$formula
   depVar=all.vars(as.formula(frm))[1]
   
   df[[depVar]]=p
+  df$n=weights
   nlr=update(lr,data=df)
   v=(p-nlr$fitted.values)*weights(lr)/sum(weights(lr))
   nlr$min.distance=sqrt(sum((v)^2))
@@ -81,7 +82,13 @@ updateLogitModel<-function(p,lr){
 }
 
 
-simulatePowerAtPoint<-function(mdr, nSimulation,eps){
+simulatePowerAtPoint<-function(param){
+  mdr=param$mdr
+  nSimulation=param$nSimulation
+  eps=param$eps
+  nr=param$nr
+  fname=paste0("r",nr,".csv")
+  
   set.seed(01032020)
   nsim=list()
   psim=list()

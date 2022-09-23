@@ -1,7 +1,7 @@
 #source("asymptoticTest.R")
 source("simulation.R")
 
-simulatePowerAtModel<-function(p, nSimulation, mdr){
+simulatePowerMDR<-function(p, nSimulation, mdr){
   set.seed(01032020)
   nsim=list()
   psim=list()
@@ -18,5 +18,25 @@ simulatePowerAtModel<-function(p, nSimulation, mdr){
     res[[i]]=mdr2results(nlr)
   }
 
+  return(res)
+}
+
+simulatePowerLR<-function(p, nSimulation, lr){
+  set.seed(01032020)
+  nsim=list()
+  psim=list()
+  for (i in c(1:nSimulation)){
+    #resample cell sizes first
+    nsim[[i]]=rmultinom(1, mdr$n,mdr$weights)
+    #resample counting frequencies
+    psim[[i]]=resample.p(nsim[[i]],p)
+  }
+  
+  res=list()
+  for (i in c(1:nSimulation)){
+    nlr=updateLogitModel()
+    res[[i]]=mdr2results(nlr)
+  }
+  
   return(res)
 }
