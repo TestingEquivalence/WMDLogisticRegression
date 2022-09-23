@@ -21,7 +21,7 @@ simulatePowerMDR<-function(p, nSimulation, mdr){
   return(res)
 }
 
-simulatePowerLR<-function(p, nSimulation, lr){
+simulatePowerLR<-function(p, nSimulation, lr, mdr){
   set.seed(01032020)
   nsim=list()
   psim=list()
@@ -34,7 +34,7 @@ simulatePowerLR<-function(p, nSimulation, lr){
   
   res=list()
   for (i in c(1:nSimulation)){
-    nlr=updateLogitModel()
+    nlr=updateLogitModel(psim[[i]],nsim[[i]],lr)
     res[[i]]=mdr2results(nlr)
   }
   

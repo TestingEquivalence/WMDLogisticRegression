@@ -37,16 +37,10 @@ lr = glm(frm,df, family = binomial("logit"), weights =n)
 mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic)
 
 # compute distribution using logit regression 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=lr$fitted.values,
-                         lr=lr,
-                         updateLR =updateLogitModel,nSimulation=1000)
+res=simulatePowerLR(p=lr$fitted.values,nSimulation=1000,lr=lr, mdr)
 write.results(res,"estimation_lr_power_lr.csv")
 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=mdr$fitted,
-                         lr=lr,
-                         updateLR =updateLogitModel,nSimulation=1000)
+res=simulatePowerLR(p=mdr$fitted,nSimulation=1000,lr=lr, mdr)
 write.results(res,"estimation_mdr_power_lr.csv")
 
 res=simulatePowerAtModel(df,n=df$n,
