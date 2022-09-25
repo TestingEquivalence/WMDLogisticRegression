@@ -43,29 +43,17 @@ write.results(res,"estimation_lr_power_lr.csv")
 res=simulatePowerLR(p=mdr$fitted,nSimulation=1000,lr=lr, mdr)
 write.results(res,"estimation_mdr_power_lr.csv")
 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=df$p,
-                         lr=lr,
-                         updateLR =updateLogitModel,nSimulation=1000)
+res=simulatePowerLR(p=df$p,nSimulation=1000,lr=lr, mdr)
 write.results(res,"data_power_lr.csv")
 
 # compute distribution using minimum distance regression 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=lr$fitted.values,
-                         lr=mdr,
-                         updateLR =updateMinDistanceModel,nSimulation=1000)
+res=simulatePowerMDR(p=lr$fitted.values,nSimulation=1000, mdr)
 write.results(res,"estimation_lr_power_mdr.csv")
 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=mdr$fitted,
-                         lr=mdr,
-                         updateLR =updateMinDistanceModel,nSimulation=1000)
+res=simulatePowerMDR(p=mdr$fitted,nSimulation=1000, mdr)
 write.results(res,"estimation_mdr_power_mdr.csv")
 
-res=simulatePowerAtModel(df,n=df$n,
-                         p=df$p,
-                         lr=mdr,
-                         updateLR =updateMinDistanceModel,nSimulation=1000)
+res=simulatePowerMDR(p=df$p,nSimulation=1000, mdr)
 write.results(res,"data_set_power_mdr.csv")
 
 # compute test power at the fitted model 
@@ -73,10 +61,9 @@ write.results(res,"data_set_power_mdr.csv")
 
 # obtain minimum distance model for technical and simulate the test power
 mdr = min_dst_logit(frm,df,weights=df$n,test = asymptoticBootstrapVariance, 
-                    nSimulation = 1000)
+                    nSimulation = 200)
 
-res=simulatePowerAtModel(p=fitted(mdr),nSimulation = 1000,mdr = mdr)
-
+res=simulatePowerMDR(p=fitted(mdr),nSimulation = 1000,mdr = mdr)
 write.results(res,"size_mdr.csv")
 
 # compute test power at the random boundary points 

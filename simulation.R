@@ -89,6 +89,11 @@ simulatePowerAtPoint<-function(param){
   nr=param$nr
   fname=paste0("r",nr,".csv")
   
+  if (file.exists(fname)){
+    s=read.csv(fname)
+    return(s$x)
+  }
+  
   set.seed(01032020)
   nsim=list()
   psim=list()
@@ -107,7 +112,9 @@ simulatePowerAtPoint<-function(param){
     res[i]=nmdr$min.epsilon
   }
   
-  return(sum(res<=eps)/nSimulation)
+  r=sum(res<=eps)/nSimulation
+  write.csv(r,fname)
+  return(r)
 }
 
 

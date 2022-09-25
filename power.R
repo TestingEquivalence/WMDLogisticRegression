@@ -43,7 +43,7 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   bndModels=list()
   test=mdr$test
   mdr$test=none
-  nPoints=2
+  nPoints=100
   
   for (i in c(1:(nPoints+10))){
     exteriorModels[[i]]=randomExteriorPoint(p,mdr,eps)
@@ -85,6 +85,10 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   #   print(i)
   # }
   
+  for (i in c(1:nPoints)){
+    fname=paste0("r",i,".csv")
+    file.remove(fname)
+  }
   return(power)
 }
   
