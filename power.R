@@ -64,6 +64,8 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
       
       bndModels[[i]]=param
       i=i+1
+      print("ok")
+      print(i)
     }, 
     error=function(e){
       print("error")
