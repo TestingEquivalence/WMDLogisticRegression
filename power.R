@@ -41,9 +41,13 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   set.seed(01032020)
   exteriorModels=list()
   bndModels=list()
+  nPoints=100
+  
+  # set test to none to increase performance 
+  # by searching for the boundary points
   test=mdr$test
   mdr$test=none
-  nPoints=100
+  
   
   for (i in c(1:(nPoints+10))){
     exteriorModels[[i]]=randomExteriorPoint(p,mdr,eps)
@@ -51,7 +55,6 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   
   j=1
   i=1
-  mdr$test=test
   while(i<=nPoints){
     tryCatch({
       bmdr=linearBoundaryPoint(mdr,exteriorModels[[j]],eps)
@@ -75,6 +78,9 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
     j=j+1
   }
 
+  # set test back to the correct value
+  mdr$test=test
+  
   cl=getCluster()
   power=parSapply(cl,bndModels, simulatePowerAtPoint)
   stopCluster(cl)
