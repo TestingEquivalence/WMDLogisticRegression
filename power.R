@@ -58,6 +58,8 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   while(i<=nPoints){
     tryCatch({
       bmdr=linearBoundaryPoint(mdr,exteriorModels[[j]],eps)
+      # set test back to the correct value
+      bmdr$test=test
       
       param=list()
       param$mdr=bmdr
@@ -78,9 +80,6 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
     j=j+1
   }
 
-  # set test back to the correct value
-  mdr$test=test
-  
   cl=getCluster()
   power=parSapply(cl,bndModels, simulatePowerAtPoint)
   stopCluster(cl)
