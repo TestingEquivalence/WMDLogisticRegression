@@ -21,7 +21,7 @@ linearBoundaryPoint<-function(int_mdr,ext_mdr, eps){
     int_count=int_mdr$y*int_mdr$weights
     ext_count=ext_mdr$y*ext_mdr$weights
     new_count=a*int_count+(1-a)*ext_count
-    new_p=new_count/new_weights
+    new_p= ifelse(new_weights==0,0, new_count/new_weights)
     nmdr=updateMinDistanceModel(new_p,new_weights,int_mdr)
     return(nmdr)
   }
@@ -76,8 +76,8 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
       print("error")
     },finally = {
     })
-    print(j)
     j=j+1
+    print(j)
   }
 
   cl=getCluster()
