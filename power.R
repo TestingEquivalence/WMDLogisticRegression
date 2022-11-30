@@ -1,14 +1,14 @@
 randomExteriorPoint<-function(p,mdr, eps){
   repeat{
-    skip= FALSE
     #resample cell sizes first
     nn=rmultinom(1, mdr$n,mdr$weights)
     #resample counting frequencies
     np=resample.p(nn,p)
-    mdr= updateMinDistanceModel(np,nn,mdr)
+    nmdr= updateMinDistanceModel(np,nn,mdr)
+    #print(nmdr$min.distance)
     
-    if (mdr$min.distance>=eps){
-      return(mdr)
+    if (nmdr$min.distance>=eps){
+      return(nmdr)
     }
   }
 }
