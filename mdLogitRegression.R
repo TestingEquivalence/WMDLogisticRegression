@@ -38,6 +38,7 @@ min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
   
   # logistic model for given parameters
   w=mdr$weights/mdr$n
+  
   distance<-function(coef){
     md$coefficients=coef
     l=predict.lm(md,mdr$data)
