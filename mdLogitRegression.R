@@ -14,8 +14,8 @@ asymptoticBootstrapVariance="asymptoticBootstrapVariance"
 empiricalBootstrap="empiricalBootstrap"
 tPercentileBootstrap="tPercentileBootstrap"
 
-min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
-                        nSimulation=200){
+min_dst_logit<-function(formula,data, weights,  test, alpha,
+                        nSimulation, fixIntercept){
   
   #initial information
   mdr=list()
@@ -35,27 +35,37 @@ min_dst_logit<-function(formula,data, weights,  test, alpha=0.05,
   md= lm(mdr$frm, mdr$data)
   y=all.vars(as.formula(mdr$frm))[1]
   
-  
   # logistic model for given parameters
   w=mdr$weights/mdr$n
   
-  distance<-function(coef){
-    md$coefficients=coef
+  # fix intercept if necessary
+  intercept=lr$coefficients[[1]]
+  
+  distance<-function(par){
+    md$coefficients=getCoef(par,intercept, fixIntercept)
     l=predict.lm(md,mdr$data)
+    # print(par)
     (logistic(l)-mdr$data[[y]])*w
   }
   
   # calculate minimum distance estimator
-  
-  res=nls.lm(par=lr$coefficients, fn=distance)
+  if (fixIntercept){
+    par=lr$coefficients[-1]
+  }
+  else{
+    par=lr$coefficients
+  }
+  res=nls.lm(par=par, fn=distance)
   mdr$result.nls.lm=res
+  mdr$fixIntercept=fixIntercept
   
   # calculate min distance
   mdr$min.distance=sqrt(deviance(res))
-  mdr$coefficients=coef(res)
+  par=coef(res)
+  mdr$coefficients=getCoef(par,intercept,fixIntercept)
  
   # calculate fitted
-  md$coefficients=coef(res)
+  md$coefficients=mdr$coefficients
   l=predict.lm(md,mdr$data)
   mdr$fitted=logistic(l)
    
@@ -91,6 +101,18 @@ updateMinDistanceModel<-function(p,weights,mdr){
   df[[y]]=p
   
   nlr=min_dst_logit(mdr$frm,data=df,weights=weights,test = mdr$test, alpha = mdr$alpha,
-                    nSimulation = mdr$nSimulation)
+                    nSimulation = mdr$nSimulation, fixIntercept = mdr$fixIntercept)
   return(nlr)
 }
+
+getCoef<-function(par, intercept, fixIntercept){
+   if (fixIntercept){
+     npar=names(par)
+     npar=c("Intercept",npar)
+     par=c(intercept,par)
+     names(par)=npar
+     return(par)
+   }
+  return(par)
+}
+  
