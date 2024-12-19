@@ -129,7 +129,7 @@ getCluster<-function(){
                      "linearBoundaryPoint","nls.lm","asymptotic","asymptSDMultinomial",
                      "asymptoticBootstrapVariance","empiricalBootstrap","bootstrapVolatility",
                      "asymptoticTestBootstrapVariance","empiricalBootstrapTest",
-                     "tPercentileBootstrapTest","tPercentileBootstrap"))
+                     "tPercentileBootstrapTest","tPercentileBootstrap", "getCoef"))
   
   return(cl)
 }

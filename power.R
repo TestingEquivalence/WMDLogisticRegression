@@ -76,8 +76,9 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
       print("error")
     },finally = {
     })
-    j=j+1
+    
     print(j)
+    j=j+1
   }
 
   cl=getCluster()
