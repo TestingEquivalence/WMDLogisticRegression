@@ -12,7 +12,7 @@ asymptStDev<-function(mdr){
   
   #calculate derivative
   r=(p-f)*w
-  dq0=2*f*r
+  dq0=-2*f*r
   dq1=2*(1-f)*r
   
   vol=asymptSDMultinomial(p=c(q0,q1), derivative=c(dq0,dq1))
