@@ -22,7 +22,7 @@ write.result(lr,"lr.csv")
 
 # using minimum distance regression
 set.seed(01012021)
-mdr = min_dst_logit(frm,df,weights=df$n,test =tPercentileBootstrap, nSimulation = 1000, alpha = 0.05, fixIntercept = TRUE)
+mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, nSimulation = 1000, alpha = 0.05, fixIntercept = TRUE)
 write.result(mdr,"mdr.csv")
 
 
@@ -34,7 +34,7 @@ write.result(mdr,"mdr.csv")
 
 lr = glm(frm,df, family = binomial("logit"), weights =n)
 
-mdr = min_dst_logit(frm,df,weights=df$n,test =none, nSimulation = 0, alpha = 0.05, fixIntercept = TRUE)
+mdr = min_dst_logit(frm,df,weights=df$n,test =none, nSimulation = 0, alpha = 0.05, fixIntercept = FALSE)
 
 # compute distribution using logit regression 
 res=simulatePowerLR(p=lr$fitted.values,nSimulation=1000,lr=lr, mdr)
@@ -60,12 +60,12 @@ write.results(res,"data_set_power_mdr.csv")
 ###########################################################
 
 # obtain minimum distance model for technical and simulate the test power
-mdr = min_dst_logit(frm,df,weights=df$n,test =tPercentileBootstrap, nSimulation = 1000, alpha = 0.05, fixIntercept = TRUE)
+mdr = min_dst_logit(frm,df,weights=df$n,test=tPercentileBootstrap, nSimulation = 1000, alpha = 0.05, fixIntercept = TRUE)
 
 res=simulatePowerMDR(p=fitted(mdr),nSimulation = 1000,mdr = mdr)
 write.results(res,"size_mdr_Fiji_tPBT_1000.csv")
 
-# compute test power at the random boundary points 
+ # compute test power at the random boundary points 
 ###########################################################
 
 # obtain minimum distance model for technical and simulate the test power
@@ -73,7 +73,7 @@ mdr = min_dst_logit(frm,df,weights=df$n,test =asymptotic, nSimulation = 0, alpha
 
 
 res= simulatePowerAtBoundary(p=df$p,mdr, nSimulation=1000, eps=0.015)
-write.csv(res,"power_mdr.csv")
+write.csv(res,"power_mdr_AT.csv")
 
 
 
