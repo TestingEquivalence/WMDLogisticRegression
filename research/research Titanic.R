@@ -75,12 +75,12 @@ write.results(res,"size_mdr_tPBT_1000.csv")
 
 # obtain minimum distance model for technical and simulate the test power
 mdr = min_dst_logit(frm,df,weights=df$n,
-                    test = asymptotic, nSimulation = 0, alpha=0.05,fixIntercept = FALSE)
+                    test = tPercentileBootstrap, nSimulation = 200, alpha=0.05,fixIntercept = FALSE)
 
-p=fitted(mdr)
-mdr=updateMinDistanceModel(p,mdr$weights,mdr)
-res= simulatePowerAtBoundary(p,mdr, nSimulation=1000, eps=0.009)
-write.csv(res,"power_Titanic_AT_009.csv")
+#p=fitted(mdr)
+#mdr=updateMinDistanceModel(p,mdr$weights,mdr)
+res= simulatePowerAtBoundary(df$p,mdr, nSimulation=1000, eps=0.019)
+write.csv(res,"power_Titanic_PT_019.csv")
 
 
 

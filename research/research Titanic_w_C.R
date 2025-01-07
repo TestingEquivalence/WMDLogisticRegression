@@ -64,11 +64,11 @@ write.results(res,"data_set_power_mdr.csv")
 ###########################################################
 
 # obtain minimum distance model for technical and simulate the test power
-mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, nSimulation = 200, alpha=0.05,
+mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, nSimulation = 1000, alpha=0.05,
                     fixIntercept = FALSE)
 
 res=simulatePowerMDR(p=fitted(mdr),nSimulation = 1000,mdr = mdr)
-write.results(res,"size_Titanic_wC_PT_200.csv")
+write.results(res,"size_Titanic_wC_PT_1000.csv")
 
 # compute test power at the random boundary points 
 ###########################################################
