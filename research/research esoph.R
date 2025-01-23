@@ -65,10 +65,10 @@ write.results(res,"data_set_power_mdr.csv")
 ###########################################################
 
 # obtain minimum distance model for technical issues and simulate the test power
-mdr = min_dst_logit(frm,df,weights=df$n,test = asymptoticBootstrapVariance, alpha=0.05, nSimulation = 1000, fixIntercept = TRUE)
+mdr = min_dst_logit(frm,df,weights=df$n,test = tPercentileBootstrap, alpha=0.05, nSimulation = 1000, fixIntercept = TRUE)
 
 res=simulatePowerMDR(p=fitted(mdr),nSimulation = 1000,mdr = mdr)
-write.results(res,"size_mdr_esoph_ATBV_1000.csv")
+write.results(res,"size_mdr_esoph_fi_PT_1000.csv")
 
 # compute test power at the random boundary points 
 ###########################################################
