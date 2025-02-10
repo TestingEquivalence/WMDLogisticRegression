@@ -79,9 +79,9 @@ write.results(res,"size_esoph_max_red_PT_1000.csv")
 ###########################################################
 
 # obtain minimum distance model for technical and simulate the test power
-mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic)
+mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic, nSimulation = 200, alpha=0.05, fixIntercept = FALSE)
 
-res= simulatePowerAtBoundary(p=mdr$fitted,mdr, nSimulation=1000, eps=0.008)
-write.csv(res,"power_mdr.csv")
+res= simulatePowerAtBoundary(p=mdr$fitted,mdr, nSimulation=1000, eps=0.015)
+write.csv(res,"power_esoph_maxred_015.csv")
 
 

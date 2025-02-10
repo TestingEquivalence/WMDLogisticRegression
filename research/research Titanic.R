@@ -77,12 +77,12 @@ write.results(res,"size_Titanic_fixed_Intercept_PT_1000.csv")
 
 # obtain minimum distance model for technical and simulate the test power
 mdr = min_dst_logit(frm,df,weights=df$n,
-                    test = asymptoticBootstrapVariance, nSimulation = 200, alpha=0.05,fixIntercept = TRUE)
+                    test = asymptotic, nSimulation = 200, alpha=0.05,fixIntercept = TRUE)
 
-#p=fitted(mdr)
-#mdr=updateMinDistanceModel(p,mdr$weights,mdr)
-res= simulatePowerAtBoundary(df$p,mdr, nSimulation=1000, eps=0.020)
-write.csv(res,"power_Titanic_ATBV_020.csv")
+p=fitted(mdr)
+mdr=updateMinDistanceModel(p,mdr$weights,mdr)
+res= simulatePowerAtBoundary(df$p,mdr, nSimulation=1000, eps=0.009)
+write.csv(res,"power_Titanic_AT_009.csv")
 
 
 
