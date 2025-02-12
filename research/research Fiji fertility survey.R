@@ -71,8 +71,11 @@ write.results(res,"size_mdr_Fiji_tPBT_1000.csv")
 # obtain minimum distance model for technical and simulate the test power
 mdr = min_dst_logit(frm,df,weights=df$n,test =asymptotic, nSimulation = 0, alpha = 0.05, fixIntercept = TRUE)
 
+bndPoints=generateBoundaryPoints(p=df$p,mdr, nSimulation=1000, eps=0.015)
+saveRDS(bndPoints,"bndPointsFiji.rds")
+bndPoints=readRDS("bndPointsFiji.rds")
 
-res= simulatePowerAtBoundary(p=df$p,mdr, nSimulation=1000, eps=0.015)
+res= simulatePowerAtBoundary(bndPoints)
 write.csv(res,"power_mdr_AT.csv")
 
 

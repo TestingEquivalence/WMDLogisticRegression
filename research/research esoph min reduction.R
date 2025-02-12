@@ -79,7 +79,8 @@ write.results(res,"size_esoph_min_red_PT_1000.csv")
 # obtain minimum distance model for technical and simulate the test power
 mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic, alpha=0.05, nSimulation = 1000, fixIntercept = TRUE)
 
-res= simulatePowerAtBoundary(p=mdr$fitted,mdr, nSimulation=1000, eps=0.014)
-write.csv(res,"power_esoph_min_red_014.csv")
+bndPoints=generateBoundaryPoints()
+res= simulatePowerAtBoundary(p=mdr$fitted,mdr, nSimulation=1000, eps=0.013)
+write.csv(res,"power_esoph_min_red_013.csv")
 
 

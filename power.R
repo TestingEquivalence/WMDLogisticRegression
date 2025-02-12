@@ -5,7 +5,7 @@ randomExteriorPoint<-function(p,mdr, eps){
     #resample counting frequencies
     np=resample.p(nn,p)
     nmdr= updateMinDistanceModel(np,nn,mdr)
-    #print(nmdr$min.distance)
+    # print(nmdr$min.distance)
     
     if (nmdr$min.distance>=eps){
       return(nmdr)
@@ -36,8 +36,7 @@ linearBoundaryPoint<-function(int_mdr,ext_mdr, eps){
   return(nmdr)
 }
 
-
-simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
+generateBoundaryPoints<-function(p,mdr,nSimulation, eps){
   set.seed(01032020)
   exteriorModels=list()
   bndModels=list()
@@ -51,6 +50,7 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   
   for (i in c(1:(nPoints+10))){
     exteriorModels[[i]]=randomExteriorPoint(p,mdr,eps)
+    print(i)
   }
   
   j=1
@@ -80,9 +80,15 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
     print(j)
     j=j+1
   }
+  
+  return(bndModels)
+}
 
+
+simulatePowerAtBoundary<-function(bndPoints){
+  set.seed(12022025)
   cl=getCluster()
-  power=parSapply(cl,bndModels, simulatePowerAtPoint)
+  power=parSapply(cl,bndPoints, simulatePowerAtPoint)
   stopCluster(cl)
 
   # power=sapply(bndModels, simulatePowerAtPoint)
@@ -93,6 +99,7 @@ simulatePowerAtBoundary<-function(p,mdr, nSimulation, eps){
   #   print(i)
   # }
   
+  nPoints=length(bndPoints)
   for (i in c(1:nPoints)){
     fname=paste0("r",i,".csv")
     file.remove(fname)

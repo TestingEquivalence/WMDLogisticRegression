@@ -81,8 +81,13 @@ mdr = min_dst_logit(frm,df,weights=df$n,
 
 p=fitted(mdr)
 mdr=updateMinDistanceModel(p,mdr$weights,mdr)
-res= simulatePowerAtBoundary(df$p,mdr, nSimulation=1000, eps=0.009)
-write.csv(res,"power_Titanic_AT_009.csv")
+
+bndPoints=generateBoundaryPoints(p=df$p,mdr, nSimulation=1000, eps=0.009)
+saveRDS(bndPoints,"bndPoints_TitanicFI.rds")
+bndPoints=readRDS("bndPoints_TitanicFI.rds")
+
+res= simulatePowerAtBoundary(bndPoints)
+write.csv(res,"power_Titanic_FI_AT_009.csv")
 
 
 
