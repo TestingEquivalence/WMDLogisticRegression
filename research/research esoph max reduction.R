@@ -82,9 +82,6 @@ write.results(res,"size_esoph_max_red_PT_1000.csv")
 mdr = min_dst_logit(frm,df,weights=df$n,test = asymptotic, nSimulation = 200, alpha=0.05, fixIntercept = FALSE)
 
 bndPoints=generateBoundaryPoints(p=df$p,mdr, nSimulation=1000, eps=0.015)
-saveRDS(bndPoints,"bndPointsEsophMaxRed.rds")
-bndPoints=readRDS("bndPointsEsophMaxRed.rds")
-
 res= simulatePowerAtBoundary(bndPoints)
 write.csv(res,"power_esoph_maxred_015.csv")
 
